@@ -5,7 +5,7 @@ jasperreports = "7.0.3"
 
 # plugins
 kotlin = "1.9.22"
-gradleIntelliJPlugin = "1.17.2"
+gradleIntelliJPlugin = "2.6.0"
 changelog = "2.2.0"
 qodana = "0.1.13"
 kover = "0.7.5"
@@ -20,7 +20,7 @@ junit-vintage-engine = { group = "org.junit.vintage", name = "junit-vintage-engi
 
 [plugins]
 kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
-gradleIntelliJPlugin = { id = "org.jetbrains.intellij", version.ref = "gradleIntelliJPlugin" }
+gradleIntelliJPlugin = { id = "org.jetbrains.intellij.platform", version.ref = "gradleIntelliJPlugin" }
 changelog = { id = "org.jetbrains.changelog", version.ref = "changelog" }
 qodana = { id = "org.jetbrains.qodana", version.ref = "qodana" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
