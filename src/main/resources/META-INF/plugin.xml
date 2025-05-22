@@ -30,6 +30,8 @@
 	<vendor email="klez@protonmail.com" url="https://klez.me">Alessandro 'kLeZ' Accardo</vendor>
 	<depends>com.intellij.modules.platform</depends>
 	<depends>com.intellij.modules.lang</depends>
+	<depends>com.intellij.modules.xml</depends>
+	<depends>com.intellij.java</depends>
 	<extensions defaultExtensionNs="com.intellij">
 		<fileType name="Jasper source file" implementationClass="me.klez.file.type.jrxml.JrxmlFileType" fieldName="INSTANCE" language="XML" extensions="jrxml" />
 		<fileType name="Jasper binary file" implementationClass="me.klez.file.type.jrxml.JasperFileType" fieldName="INSTANCE" language="" extensions="jasper" />

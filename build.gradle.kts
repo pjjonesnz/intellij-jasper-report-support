@@ -53,12 +53,16 @@ repositories {
 
 // Dependencies are managed with Gradle version catalog - read more: https://docs.gradle.org/current/userguide/platforms.html#sub:version-catalog
 dependencies {
-    implementation("net.sf.jasperreports:jasperreports:6.20.5")
-    testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.1")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.1")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.9.2")
-    testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.8.1")
+    implementation(libs.jasperreports)
+    // Required for JasperReports
+    implementation("com.lowagie:itext:2.1.7")
+    implementation("org.apache.commons:commons-collections4:4.4")
+
+    testImplementation(libs.junit.jupiter)
+    testImplementation(libs.junit.jupiter.api)
+    testRuntimeOnly(libs.junit.jupiter.engine)
+    testRuntimeOnly(libs.junit.platform.launcher)
+    testRuntimeOnly(libs.junit.vintage.engine)
 }
 
 // Set the JVM language level used to build the project. Use Java 11 for 2020.3+, and Java 17 for 2022.2+.
@@ -138,27 +142,27 @@ tasks {
 
     // Configure UI tests plugin
     // Read more: https://github.com/JetBrains/intellij-ui-test-robot
-    runIdeForUiTests {
-        systemProperty("robot-server.port", "8082")
-        systemProperty("ide.mac.message.dialogs.as.sheets", "false")
-        systemProperty("jb.privacy.policy.text", "<!--999.999-->")
-        systemProperty("jb.consents.confirmation.enabled", "false")
-    }
-
-    signPlugin {
-        val certChain = environment("CERTIFICATE_CHAIN").get()
-        val privKey = environment("PRIVATE_KEY").get()
-        certificateChain = if (file(certChain).exists()) file(certChain).readText(StandardCharsets.UTF_8) else certChain
-        privateKey = if (file(privKey).exists()) file(privKey).readText(StandardCharsets.UTF_8) else privKey
-        password = environment("PRIVATE_KEY_PASSWORD")
-    }
-
-    publishPlugin {
-        dependsOn("patchChangelog")
-        token = environment("PUBLISH_TOKEN")
-        // The pluginVersion is based on the SemVer (https://semver.org) and supports pre-release labels, like 2.1.7-alpha.3
-        // Specify pre-release label to publish the plugin in a custom Release Channel automatically. Read more:
-        // https://plugins.jetbrains.com/docs/intellij/deployment.html#specifying-a-release-channel
-        channels = properties("pluginVersion").map { listOf(it.split('-').getOrElse(1) { "default" }.split('.').first()) }
-    }
+//    runIdeForUiTests {
+//        systemProperty("robot-server.port", "8082")
+//        systemProperty("ide.mac.message.dialogs.as.sheets", "false")
+//        systemProperty("jb.privacy.policy.text", "<!--999.999-->")
+//        systemProperty("jb.consents.confirmation.enabled", "false")
+//    }
+//
+//    signPlugin {
+//        val certChain = environment("CERTIFICATE_CHAIN").get()
+//        val privKey = environment("PRIVATE_KEY").get()
+//        certificateChain = if (file(certChain).exists()) file(certChain).readText(StandardCharsets.UTF_8) else certChain
+//        privateKey = if (file(privKey).exists()) file(privKey).readText(StandardCharsets.UTF_8) else privKey
+//        password = environment("PRIVATE_KEY_PASSWORD")
+//    }
+//
+//    publishPlugin {
+//        dependsOn("patchChangelog")
+//        token = environment("PUBLISH_TOKEN")
+//        // The pluginVersion is based on the SemVer (https://semver.org) and supports pre-release labels, like 2.1.7-alpha.3
+//        // Specify pre-release label to publish the plugin in a custom Release Channel automatically. Read more:
+//        // https://plugins.jetbrains.com/docs/intellij/deployment.html#specifying-a-release-channel
+//        channels = properties("pluginVersion").map { listOf(it.split('-').getOrElse(1) { "default" }.split('.').first()) }
+//    }
 }

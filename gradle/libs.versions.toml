@@ -1,20 +1,26 @@
 [versions]
 # libraries
-annotations = "24.0.1"
+junit = "5.10.1"
+jasperreports = "7.0.3"
 
 # plugins
-kotlin = "1.9.0"
-changelog = "2.1.2"
-gradleIntelliJPlugin = "1.15.0"
+kotlin = "1.9.22"
+gradleIntelliJPlugin = "1.17.2"
+changelog = "2.2.0"
 qodana = "0.1.13"
-kover = "0.7.3"
+kover = "0.7.5"
 
 [libraries]
-annotations = { group = "org.jetbrains", name = "annotations", version.ref = "annotations" }
+jasperreports = { group = "net.sf.jasperreports", name = "jasperreports", version.ref = "jasperreports" }
+junit-jupiter = { group = "org.junit.jupiter", name = "junit-jupiter", version.ref = "junit" }
+junit-jupiter-api = { group = "org.junit.jupiter", name = "junit-jupiter-api", version.ref = "junit" }
+junit-jupiter-engine = { group = "org.junit.jupiter", name = "junit-jupiter-engine", version.ref = "junit" }
+junit-platform-launcher = { group = "org.junit.platform", name = "junit-platform-launcher", version = "1.10.1" }
+junit-vintage-engine = { group = "org.junit.vintage", name = "junit-vintage-engine", version.ref = "junit" }
 
 [plugins]
-changelog = { id = "org.jetbrains.changelog", version.ref = "changelog" }
-gradleIntelliJPlugin = { id = "org.jetbrains.intellij", version.ref = "gradleIntelliJPlugin" }
 kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
-kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
+gradleIntelliJPlugin = { id = "org.jetbrains.intellij", version.ref = "gradleIntelliJPlugin" }
+changelog = { id = "org.jetbrains.changelog", version.ref = "changelog" }
 qodana = { id = "org.jetbrains.qodana", version.ref = "qodana" }
+kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
