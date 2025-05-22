@@ -38,6 +38,8 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import org.jetbrains.annotations.NotNull;
 
+import javax.xml.stream.XMLInputFactory;
+import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -50,11 +52,26 @@ public class CompileJrxmlAction extends AnAction {
 
 	private static Result buildReport(VirtualFile vf) {
 		final Result.ResultBuilder builder = Result.builder().source(vf.getPath()).destination(vf.getPath().replace(SOURCE_EXT, DEST_EXT));
+
+		ClassLoader originalClassLoader = Thread.currentThread().getContextClassLoader();
+
 		try {
+			Thread.currentThread().setContextClassLoader(CompileJrxmlAction.class.getClassLoader());
+			try {
+				Class<?> factoryClass = XMLInputFactory.class;
+				Method method = factoryClass.getDeclaredMethod("newFactory", String.class, ClassLoader.class);
+				method.setAccessible(true);
+			} catch (Exception e) {
+				// Ignore reflection failures, continue with normal compilation
+			}
+
 			JasperCompileManager.compileReportToFile(builder.getSource(), builder.getDestination());
 			builder.type(ResultType.OK);
 		} catch (JRException e) {
 			builder.type(ResultType.KO).message(e.getMessage()).exception(e);
+		} finally {
+			// Restore original classloader
+			Thread.currentThread().setContextClassLoader(originalClassLoader);
 		}
 		return builder.build();
 	}
