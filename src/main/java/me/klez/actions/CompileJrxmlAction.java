@@ -32,16 +32,13 @@ import com.intellij.openapi.actionSystem.ActionPlaces;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
-import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import org.jetbrains.annotations.NotNull;
 
-import javax.xml.stream.XMLInputFactory;
 import java.io.File;
-import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -74,7 +71,7 @@ public class CompileJrxmlAction extends AnAction {
 		debugLog("Physical file size: " + sourceFile.length(), project);
 		debugLog("Physical file absolute path: " + sourceFile.getAbsolutePath(), project);
 
-		ClassLoader originalClassLoader = Thread.currentThread().getContextClassLoader();
+//		ClassLoader originalClassLoader = Thread.currentThread().getContextClassLoader();
 
 		try {
 			if (!sourceFile.exists()) {
@@ -88,14 +85,14 @@ public class CompileJrxmlAction extends AnAction {
 			if (sourceFile.length() == 0) {
 				throw new JRException("Source file is empty: " + sourceFile.getAbsolutePath());
 			}
-			Thread.currentThread().setContextClassLoader(CompileJrxmlAction.class.getClassLoader());
-			try {
-				Class<?> factoryClass = XMLInputFactory.class;
-				Method method = factoryClass.getDeclaredMethod("newFactory", String.class, ClassLoader.class);
-				method.setAccessible(true);
-			} catch (Exception e) {
-				// Ignore reflection failures, continue with normal compilation
-			}
+//			Thread.currentThread().setContextClassLoader(CompileJrxmlAction.class.getClassLoader());
+//			try {
+//				Class<?> factoryClass = XMLInputFactory.class;
+//				Method method = factoryClass.getDeclaredMethod("newFactory", String.class, ClassLoader.class);
+//				method.setAccessible(true);
+//			} catch (Exception e) {
+//				// Ignore reflection failures, continue with normal compilation
+//			}
 			debugLog("About to call JasperCompileManager.compileReportToFile", project);
 			debugLog("Source: " + builder.getSource(), project);
 			debugLog("Destination: " + builder.getDestination(), project);
@@ -106,7 +103,7 @@ public class CompileJrxmlAction extends AnAction {
 			builder.type(ResultType.KO).message(e.getMessage()).exception(e);
 		} finally {
 			// Restore original classloader
-			Thread.currentThread().setContextClassLoader(originalClassLoader);
+//			Thread.currentThread().setContextClassLoader(originalClassLoader);
 		}
 		return builder.build();
 	}
